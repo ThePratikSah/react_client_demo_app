@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 
 import classes from "./DeliveryForm.module.css";
 
@@ -94,10 +93,4 @@ function DeliveryForm() {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    auth: state.isAuthenticated,
-  };
-};
-
-export default connect(mapStateToProps)(DeliveryForm);
+export default DeliveryForm;
