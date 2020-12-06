@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import classes from "./LocationPoint.module.css";
 import deliverImg from "../../img/deliver.svg";
 
@@ -13,13 +13,13 @@ function LocationPoint() {
   const [finalAddress, setFinalAddress] = useState("");
   // const [distance, setDistance] = useState({text: "", value: 0});
 
-  useEffect(() => {
-    document.querySelector("#distance").innerHTML = `Book Now @ ${
-      distance["value"] <= 5000
-        ? 40
-        : 40 + ((distance["value"] - 5000) / 1000) * 10
-    }₹`;
-  });
+  // useEffect(() => {
+  //   document.querySelector("#distance").innerHTML = `Book Now @ ${
+  //     distance["value"] <= 5000
+  //       ? 40
+  //       : 40 + ((distance["value"] - 5000) / 1000) * 10
+  //   }₹`;
+  // });
 
   const [initialCoordinates, setInitialCoordinates] = useState({
     lat: null,
@@ -82,7 +82,7 @@ function LocationPoint() {
         );
         const json = await res.json();
         console.log(json["rows"][0]["elements"][0]["distance"]);
-        setDistance(json["rows"][0]["elements"][0]["distance"]);
+        // setDistance(json["rows"][0]["elements"][0]["distance"]);
       } else {
         alert("Empty Field");
       }
@@ -190,13 +190,13 @@ function LocationPoint() {
               id="distance"
               className={classes.LocationPoint__button}
             >
-              Book Now {distance["text"]}
+              Book Now
             </button>
           </div>
         </div>
       </div>
       <div className={classes.LocationPoint__fetchPrice}>
-        <span>Distance {distance["text"]}</span>
+        <span>Distance</span>
       </div>
     </div>
   );
