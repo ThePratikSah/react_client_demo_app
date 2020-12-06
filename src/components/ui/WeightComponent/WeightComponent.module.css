@@ -1,0 +1,35 @@
+.WeightComponent {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.WeightComponent > span {
+  padding: 10px 20px;
+  color: #7a29e4;
+  background-color: #ffffff;
+  border: 1px solid #7a29e4;
+  margin: 10px 10px 10px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+
+.WeightComponent > span:hover {
+  color: #ffffff;
+  background-color: #7a29e4;
+}
+
+.IsActive {
+  background-color: #7a29e4 !important;
+  color: #ffffff !important;
+}
+
+@media only screen and (min-width: 600px) {
+  .WeightComponent {
+    justify-content: center;
+  }
+}
