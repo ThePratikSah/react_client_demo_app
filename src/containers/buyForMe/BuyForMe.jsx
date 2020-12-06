@@ -76,7 +76,7 @@ function BuyForMe() {
         );
         const json = await res.json();
         console.log(json["rows"][0]["elements"][0]["distance"]);
-        setDistance(json["rows"][0]["elements"][0]["distance"]);
+        // setDistance(json["rows"][0]["elements"][0]["distance"]);
       } else {
         alert("Empty Field");
       }
