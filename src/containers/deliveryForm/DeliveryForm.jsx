@@ -63,7 +63,6 @@ function DeliveryForm() {
 
     if (result.status === 201) {
       alert("Order placed sucessfully");
-      setUser(null);
     }
 
     alert(result);
