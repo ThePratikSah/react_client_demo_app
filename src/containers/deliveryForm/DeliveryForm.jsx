@@ -9,7 +9,7 @@ import PriceComponent from "../../components/ui/PriceComponent/PriceComponent.";
 import UserContext from "../../context/UserContext";
 
 function DeliveryForm() {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   // handle your form here
   const formSubmitHandler = async () => {
