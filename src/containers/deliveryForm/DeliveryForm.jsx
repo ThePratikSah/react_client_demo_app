@@ -49,7 +49,6 @@ function DeliveryForm() {
         },
       },
       paymentId: "paymentId12345",
-      amount: user.amount ? user.amount : 50,
       weight: user.weight,
       distance: user.distance,
     };
@@ -203,7 +202,15 @@ function DeliveryForm() {
       </div>
 
       <div className={classes.DeliveryForm__submit}>
-        {loading ? <Spinner /> : <Button id={"btn"} onClick={formSubmitHandler} text={"Review Order"} />}
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Button
+            id={"btn"}
+            onClick={formSubmitHandler}
+            text={"Review Order"}
+          />
+        )}
       </div>
       <PriceComponent value={user.amount} />
     </div>
