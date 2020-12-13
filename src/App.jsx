@@ -30,7 +30,7 @@ function App() {
     distance: undefined,
     weight: undefined,
     paymentId: "",
-    amount: 40,
+    amount: 39,
   });
 
   //TODO: Add Distance, Weight field in Order model
