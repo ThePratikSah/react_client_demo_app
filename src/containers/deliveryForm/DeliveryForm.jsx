@@ -1,18 +1,21 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import classes from "./DeliveryForm.module.css";
 import InputComponent from "../../components/ui/InputComponent/InputComponent.";
 import Button from "../../components/ui/button/Button";
 import WeightComponent from "../../components/ui/WeightComponent/WeightComponent.";
 import PriceComponent from "../../components/ui/PriceComponent/PriceComponent.";
+import Spinner from "../../components/ui/Spinner/Spinner";
 
 import UserContext from "../../context/UserContext";
 
 function DeliveryForm() {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const [loading, isLoading] = useState(false);
 
   // handle your form here
   const formSubmitHandler = async () => {
+    isLoading(true);
     // join date and time into one
     const pickupDate = new Date(
       `${user.pickupDate} ${user.pickupTime}`
@@ -62,7 +65,9 @@ function DeliveryForm() {
     });
 
     if (result.status === 201) {
+      isLoading(false);
       alert("Order placed sucessfully");
+      setUser(null);
     }
 
     alert(result);
@@ -198,9 +203,9 @@ function DeliveryForm() {
       </div>
 
       <div className={classes.DeliveryForm__submit}>
-        <Button id={"btn"} onClick={formSubmitHandler} text={"Review Order"} />
+        {loading ? <Spinner /> : <Button id={"btn"} onClick={formSubmitHandler} text={"Review Order"} />}
       </div>
-      <PriceComponent value={user.amount ? user.amount : "40"} />
+      <PriceComponent value={user.amount} />
     </div>
   );
 }

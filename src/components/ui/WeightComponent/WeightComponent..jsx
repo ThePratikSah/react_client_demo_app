@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import classes from "./WeightComponent.module.css";
 import UserContext from "../../../context/UserContext";
+import Spinner from "../Spinner/Spinner";
 
 function WeightComponent() {
+  
   const baseUrl = "https://delivery-nodejs.herokuapp.com/";
 
   const [weight, setWeight] = useState(null);
@@ -21,7 +23,6 @@ function WeightComponent() {
         alert("Failed to fetch weight.");
       }
     }
-
     fetchWeight();
   }, []);
 
@@ -42,11 +43,11 @@ function WeightComponent() {
             className={active === ele._id ? classes.IsActive : ""}
             key={ele._id}
           >
-            {ele.weight} kg
+            Upto {ele.weight} kg
           </span>
         ))
       ) : (
-        <span>loading weight...</span>
+        <span className={classes.span}><Spinner /></span>
       )}
     </div>
   );
