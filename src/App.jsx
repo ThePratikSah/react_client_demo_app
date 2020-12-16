@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import UserContext from "./context/UserContext";
 import LocationPoint from "./containers/locationPoint/LocationPoint";
+import DeliveryForm from "./containers/deliveryForm/DeliveryForm";
 import BuyForMe from "./containers/buyForMe/BuyForMe";
 import NavBar from "./components/ui/navbar/NavBar";
 import Features from "./components/ui/features/Features";
@@ -30,6 +31,9 @@ function App() {
     distance: undefined,
     weight: undefined,
     paymentId: "",
+    weightPrice: 0,
+    distancePrice: 0,
+    timePrice: 0,
     amount: 39,
   });
 
