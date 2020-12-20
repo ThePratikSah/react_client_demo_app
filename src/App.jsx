@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, {useState} from "react";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch
+} from "react-router-dom";
 import UserContext from "./context/UserContext";
 import LocationPoint from "./containers/locationPoint/LocationPoint";
-import DeliveryForm from "./containers/deliveryForm/DeliveryForm";
+import Success from "./components/Success/Success";
 import BuyForMe from "./containers/buyForMe/BuyForMe";
 import NavBar from "./components/ui/navbar/NavBar";
 import Features from "./components/ui/features/Features";
@@ -33,31 +38,40 @@ function App() {
     paymentId: "",
     weightPrice: 0,
     distancePrice: 0,
-    timePrice: 0,
+    stimePrice: 0,
+    ptimePrice: 0,
     amount: 39,
+    success: false,
   });
-
+  
   //TODO: Add Distance, Weight field in Order model
-
+  
   return (
     <Router>
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{user, setUser}}>
         {/* NavBar */}
-        <NavBar />
+        <NavBar/>
         {/* use Link component inside your navbar component */}
         {/* serving the home page */}
         {/* navbar */}
         <div>
           <Switch>
             {/* DeliveryForm */}
-            <Route exact path="/" component={LocationPoint} />
+            <Route exact path="/" component={LocationPoint}/>
             {/* product delivery */}
-            <Route path="/buy" component={BuyForMe} />
-            <Route path="/track" component={OrderCard} />
+            <Route path="/buy" component={BuyForMe}/>
+            {/* success page */}
+            {
+              user.success ?
+              <Route path="/success" component={Success}/> :
+              <Redirect to="/"/>
+            }
+            {/*<Route path="/success" component={Success}/>*/}
+            <Route path="/track" component={OrderCard}/>
           </Switch>
         </div>
         {/* features section */}
-        <Features />
+        <Features/>
         {/* footer */}
       </UserContext.Provider>
     </Router>
