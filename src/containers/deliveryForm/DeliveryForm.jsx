@@ -1,27 +1,31 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Redirect } from "react-router-dom";
+import React, {useState, useEffect, useContext} from "react";
+import {Redirect} from "react-router-dom";
 import axios from "axios";
 import classes from "./DeliveryForm.module.css";
-import InputComponent from "../../components/ui/InputComponent/InputComponent.";
+import InputComponent
+  from "../../components/ui/InputComponent/InputComponent.";
 import Button from "../../components/ui/button/Button";
-import WeightComponent from "../../components/ui/WeightComponent/WeightComponent.";
-import PriceComponent from "../../components/ui/PriceComponent/PriceComponent.";
+import WeightComponent
+  from "../../components/ui/WeightComponent/WeightComponent.";
+import PriceComponent
+  from "../../components/ui/PriceComponent/PriceComponent.";
 import Spinner from "../../components/ui/Spinner/Spinner";
+import ItemDropDownComponent
+  from "../../components/ui/ItemDropDownComponent/ItemDropDownComponent";
 import UserContext from "../../context/UserContext";
 
 function DeliveryForm() {
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [loading, isLoading] = useState(false);
-
+  
   useEffect(() => {
-    const amount =
-      user.distance > 4000 ? Math.floor((user.distance - 4000) / 1000) * 20 : 0;
+    const amount = user.distance > 4000 ? Math.floor(((user.distance - 4000) / 1000)) * 20 : 0;
     setUser({
       ...user,
-      distancePrice: amount,
+      distancePrice: amount
     });
-  }, [user]);
-
+  }, []);
+  
   // handle your form here
   const formSubmitHandler = async () => {
     isLoading(true);
@@ -32,7 +36,7 @@ function DeliveryForm() {
     const dropDate = new Date(
       `${user.dropDate} ${user.dropTime}`
     ).toISOString();
-
+    
     // formulate the data object which has to be passed in the axios
     const data = {
       sender: {
@@ -40,6 +44,7 @@ function DeliveryForm() {
         email: user.senderEmail,
         phone: user.senderPhone,
         address: `${user.pickupLocation}, ${user.pickupStreet}, ${user.senderAddress}`,
+        landmark: user.pickupLandmark,
         time: pickupDate,
         location: {
           type: "Point",
@@ -51,28 +56,31 @@ function DeliveryForm() {
         email: user.receiverEmail,
         phone: user.receiverPhone,
         address: `${user.dropLocation}, ${user.dropStreet}, ${user.receiverAddress}`,
+        landmark: user.dropLandmark,
         time: dropDate,
         location: {
           type: "Point",
           coordinates: user.receiverCoordinates,
         },
       },
+      additionalInfo: user.additionalInfo,
+      itemType: user.itemType,
       paymentId: "paymentId12345",
       amount: user.amount ? user.amount : 50,
       weight: user.weight,
       distance: user.distance,
     };
-
+    
     // now we have the data
     // we can make axios req
     const url = `https://delivery-nodejs.herokuapp.com/user/create/order`;
-
+    
     const result = await axios.post(url, data, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-
+    
     if (result.status === 201) {
       isLoading(false);
       setUser({
@@ -81,17 +89,18 @@ function DeliveryForm() {
       });
     }
   };
-
+  
   return (
     <div className={classes.DeliveryForm}>
-      <h1 className={classes.DeliveryForm__header}>Make Delivery Request</h1>
+      <h1 className={classes.DeliveryForm__header}>Make Delivery
+        Request</h1>
       <span className={classes.DeliveryForm__headerSpan}>
         Our delivery agent will go through the below location and pickup the
         product
       </span>
-
+      
       {/* fetching weight list from backend */}
-      <WeightComponent />
+      <WeightComponent/>
       <div className={classes.form__group}>
         <div className={classes.form}>
           {/* name of sender */}
@@ -134,7 +143,16 @@ function DeliveryForm() {
             type={"text"}
             placeholder={"Street name/Locality name and Landmark"}
           />
-
+          
+          {/* from landmark */}
+          <InputComponent
+            value={user.pickupLandmark}
+            name={"slandmark"}
+            labelText={"Landmark"}
+            type={"text"}
+            placeholder={"Landmark"}
+          />
+          
           {/* Pickup Date */}
           <InputComponent
             value={user.pickupDate}
@@ -142,7 +160,7 @@ function DeliveryForm() {
             labelText={"Date"}
             type={"date"}
           />
-
+          
           {/* Pickup Time */}
           <InputComponent
             value={user.pickupTime}
@@ -150,6 +168,8 @@ function DeliveryForm() {
             labelText={"Time"}
             type={"time"}
           />
+          <ItemDropDownComponent />
+
         </div>
         <div className={classes.form}>
           {/* name of receiver */}
@@ -192,7 +212,16 @@ function DeliveryForm() {
             type={"text"}
             placeholder={"Street name/Locality name and Landmark"}
           />
-
+          
+          {/* to landmark */}
+          <InputComponent
+            value={user.dropLandmark}
+            name={"plandmark"}
+            labelText={"Landmark"}
+            type={"text"}
+            placeholder={"Landmark"}
+          />
+          
           {/* Drop Date */}
           <InputComponent
             value={user.dropDate}
@@ -200,7 +229,7 @@ function DeliveryForm() {
             labelText={"Date"}
             type={"date"}
           />
-
+          
           {/* Drop Time */}
           <InputComponent
             value={user.dropTime}
@@ -208,30 +237,30 @@ function DeliveryForm() {
             labelText={"Time"}
             type={"time"}
           />
+  
+          {/* Any additional note */}
+          <InputComponent
+            type={"text"}
+            value={user.additionalInfo}
+            labelText={"Any delivery note"}
+            placeholder={"Any special information for us"}
+            name={"info"}
+          />
         </div>
       </div>
-
+      
+      <div className={classes.DeliveryForm__additionalInfoBox}>
+      
+      </div>
+      
       <div className={classes.DeliveryForm__submit}>
-        {loading ? (
-          <Spinner />
-        ) : (
-          <Button
-            id={"btn"}
-            onClick={formSubmitHandler}
-            text={"Review Order"}
-          />
-        )}
-        {user.success ? <Redirect to="/success" /> : null}
+        {loading ? <Spinner/> :
+          <Button id={"btn"} onClick={formSubmitHandler}
+                  text={"Place COD"}/>}
+        {user.success ? <Redirect to="/success"/> : null}
       </div>
       <PriceComponent
-        value={
-          user.amount +
-          user.weightPrice +
-          user.distancePrice +
-          user.stimePrice +
-          user.ptimePrice
-        }
-      />
+        value={user.amount + user.weightPrice + user.distancePrice + user.stimePrice + user.ptimePrice}/>
     </div>
   );
 }
